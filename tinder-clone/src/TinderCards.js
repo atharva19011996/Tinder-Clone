@@ -1,19 +1,20 @@
 import React, {useState} from 'react'
 import TinderCard from "react-tinder-card";
 import "./TinderCards.css"
+import axios from './axios';
 
 function TinderCards() {
 
-    const [people, setPeople] = useState([
-        {
-            name: "Pikachu",
-            url:"https://freesvgplanet.com/wp-content/uploads/2019/10/pokemon-svg-free-30195-758x505.jpg"
-        },
-        {
-            name: "Togepi",
-            url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGuDXb7R96JwhowfZ-gMLLyx7eakFWaIuIrw&usqp=CAU"
+    const [people, setPeople] = useState([]); 
+
+    useEffect(() => {
+        async function fetchData(){
+            const req = await axios.get('/tinder/cards');
+
+            setPeople(req.data);
         }
-    ]); 
+        fetchData();
+    }, [])
 
     const swiped = (direction, nameToDelete) =>{
         console.log("removing: "+ nameToDelete);
